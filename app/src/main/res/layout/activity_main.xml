@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ImageActivity">
+
+    <ImageView
+        android:id="@+id/main_img_display"
+        android:layout_width="338dp"
+        android:layout_height="279dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <Spinner
+        android:id="@+id/menu_spinner"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="300dp"
+        app:layout_constraintBottom_toTopOf="@+id/main_img_display"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.133" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="383dp"
+        android:layout_height="339dp"
+        app:layout_constraintBottom_toTopOf="@+id/main_img_display"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menu_spinner" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
