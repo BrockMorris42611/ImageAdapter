@@ -53,16 +53,19 @@ public class ImageActivity extends AppCompatActivity {
 
         AdapterForCats = new ImageAdapter(this ,listToAdapter); // set up the new adapter
 
+        //listView.setBackgroundColor(WHITE);
+
+        //listView.setAdapter(AdapterForCats);
         menu.setAdapter(AdapterForCats); // PASS THE ADAPTER THE DATA SET WE MADE ABOVE
 
         menu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                display.setImageResource(((Image)parent.getItemAtPosition(position)).getPicture()); // set the bigger image display for our app by taking the image from the view in the list and returning the picture of it
+                display.setImageResource(((Image)parent.getItemAtPosition(position)).getPicture());
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                parent.getSelectedView(); //what happens when we first boot up and nothing is selected yet
+                parent.getSelectedView();
             }
         });
     }
@@ -90,7 +93,6 @@ class ImageAdapter extends BaseAdapter{
     @Override
     public long getItemId(int position) { return 0; }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -117,7 +119,42 @@ class ImageAdapter extends BaseAdapter{
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) { // this is used when we actually drop down the menu with the default arrow click
 
-        return null; //return the dropdown
+        TextView nameTextView; // this drop down is doing to store an image(ImageView) to the right of the name of the picture(TextView)
+        LinearLayout catLinearLayout;
+        ImageView cat_pic_holder;
+
+        if (convertView == null) { //first use and not yet recycled
+            catLinearLayout = new LinearLayout(context); //set up the view linearly as we did above but now give a red color to distinguish visibly
+            catLinearLayout.setOrientation(LinearLayout.VERTICAL);
+
+            if (position % 2 == 0) //BARBER POLE CAT SCREEN
+                catLinearLayout.setBackgroundColor(RED);
+            else
+                catLinearLayout.setBackgroundColor(WHITE);
+
+            nameTextView = new TextView(context); //get the new name and picture views set up
+            cat_pic_holder = new ImageView(context);
+
+            cat_pic_holder.setAdjustViewBounds(true); // need to use this to
+
+            cat_pic_holder.setMaxHeight(100);
+
+            catLinearLayout.addView(nameTextView); //add the two new vies to the new layout
+            catLinearLayout.addView(cat_pic_holder);
+        } else {
+            catLinearLayout = (LinearLayout) convertView; // do this when the view is ready to be recycled
+            nameTextView = (TextView) catLinearLayout.getChildAt(0);
+            cat_pic_holder = (ImageView) catLinearLayout.getChildAt(1);
+        }
+        if(position == 0) // dont show the chooser option
+            catLinearLayout.setVisibility(View.INVISIBLE);
+        else {
+            nameTextView.setText(Cat_List.get(position).getName()); //post the name
+            cat_pic_holder.setImageResource(Cat_List.get(position).getPicture()); //post the picture
+        }
+
+
+        return catLinearLayout; //return the dropdown
     }
 }
 class Image{ //just to make having one array easier if not just eliminating need for 2 arrays which could become asymmetrical
