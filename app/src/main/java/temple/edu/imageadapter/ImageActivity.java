@@ -53,6 +53,18 @@ public class ImageActivity extends AppCompatActivity {
 
         AdapterForCats = new ImageAdapter(this ,listToAdapter); // set up the new adapter
 
+        menu.setAdapter(AdapterForCats); // PASS THE ADAPTER THE DATA SET WE MADE ABOVE
+
+        menu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                display.setImageResource(((Image)parent.getItemAtPosition(position)).getPicture()); // set the bigger image display for our app by taking the image from the view in the list and returning the picture of it
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                parent.getSelectedView(); //what happens when we first boot up and nothing is selected yet
+            }
+        });
     }
 }
 class ImageAdapter extends BaseAdapter{
@@ -78,9 +90,28 @@ class ImageAdapter extends BaseAdapter{
     @Override
     public long getItemId(int position) { return 0; }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null; //return the layout
+
+        TextView nameTextView; LinearLayout catLinearLayout; // this is the view to be displayed at the when the drop down menu isnt clicked or basically when something has been clicked and is set to be seen
+
+        if(convertView == null){ //first use and not yet recycled
+            catLinearLayout = new LinearLayout(context); // set up the layout based on the context
+            catLinearLayout.setOrientation(LinearLayout.VERTICAL); // give it the vertical layout to appear like a standard list
+            catLinearLayout.setBackgroundColor(CYAN); //stand out with that nice cyan blue
+            nameTextView = new TextView(context); // hold the given name of the cat or the item that we select
+            catLinearLayout.addView(nameTextView); // add the textView to the layout to be displayed
+        }else{
+            catLinearLayout = (LinearLayout) convertView; // this si for when we are recycling to save resources
+            nameTextView = (TextView) catLinearLayout.getChildAt(0); // since layouts are basically singular trees with the views as the nodes we do this
+        }
+
+
+        nameTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+        nameTextView.setText(Cat_List.get(position).getName()); //set the textView to display correct cat
+
+        return catLinearLayout; //return the layout
     }
 
     @Override
